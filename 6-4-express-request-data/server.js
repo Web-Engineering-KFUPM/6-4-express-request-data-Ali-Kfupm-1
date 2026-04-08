@@ -116,23 +116,15 @@ app.get("/echo", (req, res) => {
   if (!name || !age) {
     return res.status(400).json({
       ok: false,
-      error: "name and age are required",
-    });
-  }
-
-  const ageNum = Number(age);
-
-  if (!Number.isFinite(ageNum)) {
-    return res.status(400).json({
-      ok: false,
-      error: "age must be a number",
+      error: "name & age required",
     });
   }
 
   res.json({
     ok: true,
     name,
-    age: ageNum,
+    age,
+    msg: `Hello ${name}, you are ${age}`,
   });
 });
 
@@ -150,14 +142,14 @@ app.get("/profile/:first/:last", (req, res) => {
 app.param("userId", (req, res, next, userId) => {
   const id = Number(userId);
 
-  if (!Number.isFinite(id) || id < 1) {
+  if (!Number.isFinite(id) || id <= 0) {
     return res.status(400).json({
       ok: false,
-      error: "userId must be a positive number",
+      error: "userId must be positive number",
     });
   }
 
-  req.userId = id;
+  req.userIdNum = id; // ✅ VERY IMPORTANT
   next();
 });
 
@@ -165,7 +157,7 @@ app.param("userId", (req, res, next, userId) => {
 app.get("/users/:userId", (req, res) => {
   res.json({
     ok: true,
-    userId: req.userId,
+    userId: req.userIdNum, // ✅ MUST use this
   });
 });
 
