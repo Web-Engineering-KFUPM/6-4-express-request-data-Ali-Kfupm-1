@@ -107,16 +107,8 @@ LAB SETUP INSTRUCTIONS
 //import express
 import express from "express";
 
-const app = express();
-const PORT = 3000;
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 // create express app instance to create web server
-
-
-
+const app = express();
 // Query params: /echo?name=Ali&age=22
 
 
@@ -130,5 +122,6 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Start the server by listening
-
-
+app.listen(3000, () => {
+  console.log("API running at http://localhost:3000");
+});
